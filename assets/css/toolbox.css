@@ -1,0 +1,22 @@
+button {
+	border: none;
+	border-radius: 2px;
+	box-shadow: none;
+	background: inherit;
+	border: 1px solid transparent;
+	margin: 1px;
+	margin-right: 2px;
+	margin-bottom: 2px;
+	padding: 2px;
+	transition: all 0 linear;
+	color: #000;
+}
+
+button:hover, .selected {
+	background: #CBE6FF;
+	border-color: #fff;
+	box-shadow: 1px 1px 0 #52ADFC,
+		1px -1px 0 #52ADFC,
+		-1px 1px 0 #52ADFC,
+		-1px -1px 0 #52ADFC;
+}

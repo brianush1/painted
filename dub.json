@@ -1,0 +1,19 @@
+{
+	"authors": [
+		"Brian"
+	],
+	"copyright": "Copyright © 2020, Brian",
+	"dependencies": {
+		"gtk-d": "~>3.9.0",
+		"imageformats": "~>7.0.2"
+	},
+	"description": "A paint program",
+	"libs": [
+		"gdl-3"
+	],
+	"license": "MIT",
+	"name": "painted",
+	"stringImportPaths": [
+		"./assets"
+	]
+}

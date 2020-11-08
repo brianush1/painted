@@ -1,0 +1,15 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/painted
+painted.so
+painted.dylib
+painted.dll
+painted.a
+painted.lib
+painted-test-*
+*.exe
+*.o
+*.obj
+*.lst

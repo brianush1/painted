@@ -1,0 +1,9 @@
+{
+	"fileVersion": 1,
+	"versions": {
+		"arsd-official": "8.5.3",
+		"gtk-d": "3.9.0",
+		"imageformats": "7.0.2",
+		"intel-intrinsics": "1.3.6"
+	}
+}
