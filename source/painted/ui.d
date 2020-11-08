@@ -37,6 +37,7 @@ import gtk.ListStore;
 import gtk.CellRendererPixbuf;
 import gtk.CellRendererText;
 import gtk.Notebook;
+import gtk.CheckMenuItem;
 import gobject.Value;
 import cairo.Context;
 import cairo.Pattern;
@@ -595,6 +596,29 @@ MenuItem createMenuItem(AccelGroup accelGroup, string name,
 	return item;
 }
 
+class DockMenuItem : CheckMenuItem {
+
+	private DockItem item;
+
+	this(string name, DockItem item) {
+		super(name);
+		this.item = item;
+		addOnToggled((CheckMenuItem) {
+			if (getActive()) {
+				item.showItem();
+			}
+			else {
+				item.hideItem();
+			}
+		});
+	}
+
+	void update() {
+		setActive(item.getVisible());
+	}
+
+}
+
 final class PaintedWindow : MainWindow {
 
 	AccelGroup accelGroup;
@@ -720,6 +744,19 @@ final class PaintedWindow : MainWindow {
 
 		menubar.append(new Effects);
 
+		auto view = new MenuItem("View");
+		auto viewMenu = new Menu;
+		view.setSubmenu(viewMenu);
+		menubar.append(view);
+
+		DockMenuItem[] viewItems;
+
+		view.addOnActivate((MenuItem) {
+			foreach (item; viewItems) {
+				item.update();
+			}
+		});
+
 		vbox.packStart(menubar, false, false, 0);
 
 		DockItem canvasContainer = new DockItem("canvas", "Canvas",
@@ -731,6 +768,10 @@ final class PaintedWindow : MainWindow {
 
 		DockItem toolbox = new DockItem("toolbox", "Toolbox", GdlDockItemBehavior.CANT_ICONIFY);
 		toolbox.add(new Toolbox);
+
+		DockMenuItem toolboxItem = new DockMenuItem("Toolbox", toolbox);
+		viewItems ~= toolboxItem;
+		viewMenu.append(toolboxItem);
 
 		DockItem history = new DockItem("history", "History", GdlDockItemBehavior.CANT_ICONIFY);
 		History prev;
@@ -746,11 +787,23 @@ final class PaintedWindow : MainWindow {
 			history.showAll();
 		});
 
+		DockMenuItem historyItem = new DockMenuItem("History", history);
+		viewItems ~= historyItem;
+		viewMenu.append(historyItem);
+
 		DockItem colors = new DockItem("colors", "Colors", GdlDockItemBehavior.CANT_ICONIFY);
 		colors.add(new Colors);
 
+		DockMenuItem colorsItem = new DockMenuItem("Colors", colors);
+		viewItems ~= colorsItem;
+		viewMenu.append(colorsItem);
+
 		DockItem layers = new DockItem("layers", "Layers", GdlDockItemBehavior.CANT_ICONIFY);
 		layers.add(new Layers);
+
+		DockMenuItem layersItem = new DockMenuItem("Layers", layers);
+		viewItems ~= layersItem;
+		viewMenu.append(layersItem);
 
 		canvasContainer.dock(toolbox, GdlDockPlacement.LEFT, null);
 		canvasContainer.dock(history, GdlDockPlacement.RIGHT, null);
