@@ -13,3 +13,4 @@ painted-test-*
 *.o
 *.obj
 *.lst
+/layout.xml
